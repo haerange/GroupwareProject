@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjworld.groupware.outsidework.service.impl.OutsideworkMapper">
+
+   <insert id= "mergeOutsidework" parameterType="com.bjworld.groupware.outsidework.service.impl.OutsideworkVO">
+    INSERT INTO outsidework
+    (
+     customer_seq,
+     start_date,
+     end_date,
+     start_time,
+     end_time,
+     text_area
+    )
+    VALUES
+      (
+       #{customerSeq}
+      ,#{startDate}
+      ,#{endDate}
+      ,#{startTime}
+      ,#{endTime}
+      ,#{textArea}
+      )
+    </insert>
+ 
+	 
+	<select id="selectOutsideworkList" resultType="com.bjworld.groupware.outsidework.service.impl.OutsideworkVO">
+	SELECT o.seq, 
+	customer_seq as customerSeq
+	,customer_name as customerName
+	,start_date as startDate
+	,end_date as endDate
+	,start_time as startTime
+	,end_time as endTime
+	,text_area as textArea
+    from outsidework o
+    left join customer c
+    on o.customer_seq = c.seq
+	WHERE 1=1
+   </select>
+   	
+	<select id="selectOutsidework" resultType="com.bjworld.groupware.outsidework.service.impl.OutsideworkVO"
+	parameterType="com.bjworld.groupware.outsidework.service.impl.OutsideworkVO">
+	SELECT 
+	o.seq as seq 
+	,customer_seq as customerSeq
+	,c.customer_name as customerName
+	,start_date as startDate
+	,end_date as endDate
+	,start_time as startTime
+	,end_time as endTime
+	,text_area as textArea
+   	from outsidework o
+    left join customer c
+    on o.customer_seq = c.seq
+   WHERE o.seq = #{seq}
+   </select>
+   
+   <update id="updateOutsidework"
+      parameterType="com.bjworld.groupware.outsidework.service.impl.OutsideworkVO">
+      
+      UPDATE outsidework
+      set
+      customer_seq = #{customerSeq}
+      ,start_date = #{startDate}
+      ,end_date = #{endDate}
+      ,start_time = #{startTime}
+      ,end_time = #{endTime}
+      ,text_area = #{textArea}
+      WHERE seq = #{seq}
+   </update>
+   
+   <update id="deleteOutsidework"
+      parameterType="com.bjworld.groupware.outsidework.service.impl.OutsideworkVO">
+      DELETE FROM outsidework
+      WHERE seq = #{seq}
+   </update>
+   
+   <select id="selectOutsideworkListTotCnt"
+      parameterType="com.bjworld.groupware.outsidework.service.impl.OutsideworkVO"
+      resultType="Integer">
+      SELECT COUNT(*)
+      FROM outsidework
+      WHERE 1 = 1
+   </select>
+  
+
+	
+	</mapper>
+
